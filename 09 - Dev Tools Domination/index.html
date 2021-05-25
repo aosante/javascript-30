@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Console Tricks!</title>
+</head>
+<body>
+
+  <p onClick="makeGreen()">×BREAK×DOWN×</p>
+
+  <script>
+    const dogs = [{ name: 'Snickers', age: 2 }, { name: 'hugo', age: 8 }];
+
+    function makeGreen() {
+      const p = document.querySelector('p');
+      p.style.color = '#BADA55';
+      p.style.fontSize = '50px';
+    }
+
+    // Regular
+    console.log("hello");
+    // Interpolated
+    console.log('Hello I am a %s from Costa', 'surfer');
+    // Styled
+    console.log('%c I am some great text', 'font-size: 50px; background-color: blue; text-shadow: 10px 10px 0 red;');
+    // warning!
+    console.warn("Warning");
+    // Error :|
+    console.error("Mierda!")
+    // Info
+    console.info("Información");
+    // Testing
+    console.assert(1 === 1, 'Eso está mal');
+    /*Esta primera no hace nada porque assert() solo
+    se dispara cuando lo que estaá como primer parametro devuelve falso
+    */
+    console.assert(1 === 2, 'Eso si está mal');
+    // clearing
+    // console.clear();
+
+    // Viewing DOM Elements
+    const p = document.querySelector('p');
+    console.log(p); //me devuelve el elemento
+    console.dir(p); //me devuelve todas las propiedades y metodos disponibles de ese elemento
+    // Grouping together
+    dogs.forEach(dog => {
+      console.group(`${dog.name}`);
+      console.log(`This is ${dog.name}`);
+      console.log(`${dog.name} is ${dog.age} years old`);
+      console.log(`${dog.name} is ${dog.age * 7} years old in human years`);
+      console.groupEnd(`${dog.name}`);
+    })
+    // counting
+    console.count('Andres');
+    console.count('Andres');
+    console.count('Andres'); // cuenta cuantas evces se ha usado una palabra, elemento, o funcion
+    // timing
+    console.time('fetching data');
+    //aqui va lo que sea que se va a timear. como por ejemplo una funcion 
+    console.timeEnd('fetching data');
+  </script>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Type Ahead 👀</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <form class="search-form">
+    <input type="text" class="search" placeholder="City or State">
+    <ul class="suggestions">
+      <li>Filter for a city</li>
+      <li>or a state</li>
+    </ul>
+  </form>
+  <script>
+    const endpoint =
+      'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+
+    const cities = [];
+
+    const prom = fetch(endpoint)
+      .then(blob => blob.json())
+      .then(data => cities.push(...data));
+    //fetch devuelva un promise y como es un promise, no sabe qué tipo de dato va a ser.
+    //por eso hay que llamarle a .json() y luego usar el spread para que se meyan las ciudades como items en el array
+
+    function findMatches(wordToMatch, cities) {
+      //la funcion recibe la palabra que va a escribir el usuario y el array de ciudades
+      //esta funcion se llama dentro de la función de displayMatches()
+      return cities.filter(place => {
+        //hay que saber si la ciudad o estado matchea lo que se busque
+        const regex = new RegExp(wordToMatch, 'gi');
+        return place.city.match(regex) || place.state.match(regex);
+      });
+    }
+
+    function displayMatches() {
+      //this en este caso, es el input del searchbox. entonces se le pasa el value como argumento de la función findMatches()
+      const matchArray = findMatches(this.value, cities);
+      //matchArray es un nuevo arreglo con los valores que coinciden con lo digitado en el search bar
+      const html = matchArray.map(place => {
+        const regex = new RegExp(this.value, 'gi');
+        const cityName = place.city.replace(regex, `<span class="hl">${this.value}</span>`);
+        const stateName = place.state.replace(regex, `<span class="hl">${this.value}</span>`);
+        return `
+      <li>
+        <span class="name">${cityName}, ${stateName}</span>
+        <span class="population">${numberWithCommas(place.population)}</span>
+      </li>
+    `;
+      }).join('');
+      //.join() lo convierte de un array a un String gigante
+      suggestions.innerHTML = html;
+    }
+
+    const searchInput = document.querySelector('.search');
+    const suggestions = document.querySelector('.suggestions');
+
+    searchInput.addEventListener('change', displayMatches);
+    searchInput.addEventListener('keyup', displayMatches);
+
+    function numberWithCommas(x) {
+      return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    }
+  </script>
+</body>
+
+</html>
+

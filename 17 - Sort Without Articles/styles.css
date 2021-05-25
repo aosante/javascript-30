@@ -1,0 +1,35 @@
+body {
+    margin: 0;
+    font-family: sans-serif;
+    /*Donwload picture*/
+    background: url("https://source.unsplash.com/nDqA4d5NL0k/2000x2000");
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    min-height: 100vh;
+}
+
+#bands {
+    list-style: inside square;
+    font-size: 20px;
+    background: rgba(40, 39, 39, 0.7);
+    padding: 1em;
+    width: 500px;
+    margin: auto;
+    box-shadow: 0 0 20px 0  rgba(0, 0, 0, 0.7);
+    color: #efefef;
+}
+
+#bands li {
+    border-bottom: 1px solid #efefef;
+    padding: .5em;
+}
+
+#bands li:hover {
+    opacity: 0.6;
+}
+
+#bands li:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
