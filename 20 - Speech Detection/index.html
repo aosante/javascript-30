@@ -21,8 +21,20 @@
 
   recognition.onresult = function (e) {
     // this needs to run through a server
-    console.log(e);
+    const transcipt = Array.from(e.results)
+      .map(result => result[0])
+      .map(result => result.transcript)
+      .join('');
+
+    p.textContent = transcipt;
+    // this check avoids the overwrittiinig of exisiting paragraphs
+    if (e.results[0].isFinal) {
+      p = document.createElement('p');
+      words.appendChild(p);
+    }
   };
+  // makes it run again after we stop and start speaking again
+  recognition.addEventListener('end', recognition.start);
 
   recognition.start();
 
